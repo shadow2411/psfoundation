@@ -4,7 +4,7 @@ import { useState, useEffect, useId, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { format, differenceInDays } from "date-fns";
+import { format, differenceInDays, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon, Minus, Plus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -61,8 +61,8 @@ export function TiffinRegistrationForm() {
       village: "",
       lunchCount: 0,
       dinnerCount: 0,
-      fromDate: new Date(),
-      tillDate: new Date(),
+      fromDate: startOfDay(new Date()), // Initialize with start of today
+      tillDate: startOfDay(new Date()), // Initialize with start of today
       paymentStatus: "pending",
     },
   });
@@ -75,6 +75,7 @@ export function TiffinRegistrationForm() {
     const selectedRegion = pricingData.regions.find((r) => r.name === region);
     if (!selectedRegion) return;
 
+    // Add 1 to include both start and end dates
     const days = differenceInDays(tillDate, fromDate) + 1;
     const months = Math.floor(days / 30);
     const remainingDays = days % 30;
@@ -107,14 +108,12 @@ export function TiffinRegistrationForm() {
     setTotalBill(total);
   }, [form]);
 
-  // Watch specific fields for changes
   const fromDate = form.watch("fromDate");
   const tillDate = form.watch("tillDate");
   const region = form.watch("region");
   const lunchCount = form.watch("lunchCount");
   const dinnerCount = form.watch("dinnerCount");
 
-  // Update the useEffect with proper dependencies
   useEffect(() => {
     calculateBill();
   }, [calculateBill, fromDate, tillDate, region, lunchCount, dinnerCount]);
@@ -148,6 +147,7 @@ export function TiffinRegistrationForm() {
     if (fromDate) {
       const oneMonthLater = new Date(fromDate);
       oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+      oneMonthLater.setDate(oneMonthLater.getDate() - 1); // Subtract one day to stay within the month
       form.setValue("tillDate", oneMonthLater);
     }
   };
@@ -284,12 +284,14 @@ export function TiffinRegistrationForm() {
                           selected={field.value}
                           onSelect={(date) => {
                             if (date) {
-                              field.onChange(date);
-                              form.setValue("tillDate", date);
+                              const startOfSelectedDay = startOfDay(date);
+                              field.onChange(startOfSelectedDay);
+                              form.setValue("tillDate", startOfSelectedDay);
                             }
                           }}
                           disabled={(date) =>
-                            date < new Date() || date < new Date("1900-01-01")
+                            date < startOfDay(new Date()) || // Allow today's date
+                            date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -331,14 +333,21 @@ export function TiffinRegistrationForm() {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            if (date) {
+                              field.onChange(startOfDay(date));
+                            }
+                          }}
                           disabled={(date) => {
                             const fromDate = form.getValues("fromDate");
                             const oneMonthLater = new Date(fromDate);
                             oneMonthLater.setMonth(
                               oneMonthLater.getMonth() + 1
                             );
-                            return date < fromDate || date > oneMonthLater;
+                            return (
+                              date < fromDate || // Can't be before from date
+                              date > oneMonthLater // Can't be more than a month later
+                            );
                           }}
                           initialFocus
                         />

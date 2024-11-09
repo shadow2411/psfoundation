@@ -17,14 +17,9 @@ export async function GET(req: Request) {
 
     // Create a date at the start of the current day (midnight)
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Create a date at the end of the current day
-    const endOfDay = new Date(today);
-    endOfDay.setHours(23, 59, 59, 999);
 
     const query = {
-      fromDate: { $lte: endOfDay },
+      fromDate: { $lte: today },
       tillDate: { $gte: today },
       [`${meal}Count`]: { $gt: 0 }, // Use proper field name with 'Count' suffix
     };

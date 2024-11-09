@@ -34,7 +34,7 @@ const Homepage = () => {
       {/* Hero Section */}
       <div className="relative h-[600px]">
         <Image
-          src="/hero.jpg"
+          src="/image.jpg"
           alt="Hero Image"
           fill
           className="object-cover"

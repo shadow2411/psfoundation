@@ -29,7 +29,7 @@ export async function GET(req: Request) {
       [`${meal}Count`]: { $gt: 0 }, // Use proper field name with 'Count' suffix
     };
 
-    const tiffins = await TiffinOrder.find(query);
+    const tiffins = await TiffinOrder.find(query).sort({ village: -1 });
 
     return NextResponse.json({ tiffins });
   } catch (error) {

@@ -1,0 +1,312 @@
+{
+    "regions": [
+      {
+        "name": "Madhwas",
+        "monthly": {
+          "lunch_only": 1800,
+          "dinner_only": 1800,
+          "both": 3300
+        },
+        "daily": {
+          "lunch_or_dinner": 80
+        }
+      },
+      {
+        "name": "Limbodra",
+        "monthly": {
+          "lunch_only": 1800,
+          "dinner_only": 1800,
+          "both": 3300
+        },
+        "daily": {
+          "lunch_or_dinner": 80
+        }
+      },
+      {
+        "name": "Golana Palla",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Taktajina Palla",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Vadi",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Taralna Muvada",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Sajjanpur",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Ankalava",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Padedi",
+        "monthly": {
+          "lunch_only": 2100,
+          "dinner_only": 2100,
+          "both": 3800
+        },
+        "daily": {
+          "lunch_or_dinner": 90
+        }
+      },
+      {
+        "name": "Verina Muvada",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Lunawada",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Mehtana Chakalia",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Daljina Chakalia",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Chavadibai na Muvada",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Shamana",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Sagana Muvada",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Kotha",
+        "monthly": {
+          "lunch_only": 2400,
+          "dinner_only": 2400,
+          "both": 4300
+        },
+        "daily": {
+          "lunch_or_dinner": 100
+        }
+      },
+      {
+        "name": "Denavad",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Chavadia",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Thambha",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Mankodia",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Ukardi",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Rampatelna Muvada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Godnamuvada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Senadaria Gorada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Vaniavala Gorada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Vadina Gorada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      },
+      {
+        "name": "Juna Gorada",
+        "monthly": {
+          "lunch_only": 2700,
+          "dinner_only": 2700,
+          "both": 4900
+        },
+        "daily": {
+          "lunch_or_dinner": 110
+        }
+      }
+    ]
+  }

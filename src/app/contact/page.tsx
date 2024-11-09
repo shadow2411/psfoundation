@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -74,6 +73,7 @@ export default function ContactUsPage() {
         throw new Error("Failed to send message");
       }
     } catch (error) {
+      console.error("Error sending message:", error);
       toast({
         title: "Error",
         description:
@@ -95,7 +95,7 @@ export default function ContactUsPage() {
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
           <p className="text-xl text-gray-200 max-w-2xl mx-auto">
-            We're here to help and answer any questions you might have. We look
+            We&apos;re here to help and answer any questions you might have. We look
             forward to hearing from you.
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ export default function ContactUsPage() {
                 <CardHeader>
                   <CardTitle>Send us a message</CardTitle>
                   <CardDescription>
-                    Fill out the form below and we'll get back to you as soon as
+                    Fill out the form below and we&apos;ll get back to you as soon as
                     possible.
                   </CardDescription>
                 </CardHeader>

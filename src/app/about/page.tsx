@@ -3,14 +3,6 @@
 import React from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  UtensilsCrossed,
-  Home,
-  Activity,
-  Users,
-  ArrowRight,
-} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -64,9 +56,9 @@ export default function AboutUsPage() {
                 for well-being, connection, and care.
               </p>
               <Link href="/about">
-              <Button className="bg-yellow-400 hover:bg-yellow-500 text-blue-900">
-                Learn More
-              </Button>
+                <Button className="bg-yellow-400 hover:bg-yellow-500 text-blue-900">
+                  Learn More
+                </Button>
               </Link>
             </motion.div>
             <motion.div
@@ -120,14 +112,11 @@ export default function AboutUsPage() {
                   meal to all—whether busy professionals, students, or senior
                   citizens who prefer nutritious meals at their doorstep.
                 </p>
-                
               </div>
             </AnimatedSection>
           </div>
         </div>
       </section>
-
-
 
       {/* Our Vision Section */}
       <section className="py-20 bg-blue-900 text-white">

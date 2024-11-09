@@ -8,11 +8,11 @@ if (!MONGODB_URI) {
   );
 }
 
-//@ts-ignore
+//@ts-expect-error global.mongoose
 let cached = global.mongoose;
 
 if (!cached) {
-  // @ts-ignore
+  // @ts-expect-error global.mongoose
 
   cached = global.mongoose = { conn: null, promise: null };
 }

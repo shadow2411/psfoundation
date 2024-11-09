@@ -3,17 +3,9 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Heart,
-  Phone,
-  Mail,
-  MapPin,
-  Users,
-  Activity,
-  Utensils,
-  Home,
-} from "lucide-react";
+import { Users, Activity, Utensils, Home } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface AnimatedCardProps {
   children: React.ReactNode;
@@ -41,10 +33,11 @@ const Homepage = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative h-[600px]">
-        <img
-          src="/image.jpg"
-          alt="Senior citizens enjoying community activities"
-          className="w-full h-full object-cover brightness-50"
+        <Image
+          src="/hero.jpg"
+          alt="Hero Image"
+          fill
+          className="object-cover"
         />
         <motion.div
           initial={{ opacity: 0 }}
@@ -121,9 +114,11 @@ const Homepage = () => {
               </Card>
             </AnimatedCard>
             <div className="flex justify-center col-span-full">
-            <Link href={"/about"} >
-              <Button className="w-fit bg-red-400 hover:bg-red-600  ">Learn More</Button>
-            </Link>
+              <Link href={"/about"}>
+                <Button className="w-fit bg-red-400 hover:bg-red-600  ">
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -195,7 +190,6 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

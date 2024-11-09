@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -46,7 +46,7 @@ export default function TodaysTiffins() {
         alert("Failed to fetch tiffins");
       }
     } catch (error) {
-      alert("Error fetching tiffins");
+      alert("Error fetching tiffins "+ error);
     }
     setLoading(false);
   };
@@ -62,7 +62,7 @@ export default function TodaysTiffins() {
         console.error("Failed to fetch all tiffins");
       }
     } catch (error) {
-      console.error("Error fetching all tiffins:", error);
+      alert("Error fetching all tiffins:"+error);
     }
     setLoading(false);
   };
@@ -89,7 +89,7 @@ export default function TodaysTiffins() {
         console.error("Failed to update payment status");
       }
     } catch (error) {
-      console.error("Error updating payment status:", error);
+      alert("Error updating payment status:"+ error);
     }
     setUpdatingPayment(null);
   };
@@ -130,7 +130,7 @@ export default function TodaysTiffins() {
       <Card className="max-w-5xl mx-auto">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">Today's Tiffins</h1>
+            <h1 className="text-3xl font-bold">Today&apos;s Tiffins</h1>
             <div className="flex space-x-4">
               <Button
                 onClick={() => fetchTiffins("lunch")}

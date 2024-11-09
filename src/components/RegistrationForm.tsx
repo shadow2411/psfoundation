@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect, useId, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -67,13 +67,7 @@ export function TiffinRegistrationForm() {
     },
   });
 
-  const watchedFields = form.watch();
-
-  useEffect(() => {
-    calculateBill();
-  }, [watchedFields]);
-
-  const calculateBill = () => {
+  const calculateBill = useCallback(() => {
     const { region, fromDate, tillDate, lunchCount, dinnerCount } =
       form.getValues();
     if (!region || !fromDate || !tillDate) return;
@@ -88,7 +82,7 @@ export function TiffinRegistrationForm() {
     let total;
 
     if (lunchCount > 0 && dinnerCount > 0) {
-      let combos = Math.min(lunchCount, dinnerCount);
+      const combos = Math.min(lunchCount, dinnerCount);
       total =
         selectedRegion.monthly.both * months * combos +
         selectedRegion.monthly.lunch_only *
@@ -111,7 +105,19 @@ export function TiffinRegistrationForm() {
       total = 0;
     }
     setTotalBill(total);
-  };
+  }, [form]);
+
+  // Watch specific fields for changes
+  const fromDate = form.watch("fromDate");
+  const tillDate = form.watch("tillDate");
+  const region = form.watch("region");
+  const lunchCount = form.watch("lunchCount");
+  const dinnerCount = form.watch("dinnerCount");
+
+  // Update the useEffect with proper dependencies
+  useEffect(() => {
+    calculateBill();
+  }, [calculateBill, fromDate, tillDate, region, lunchCount, dinnerCount]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
@@ -453,7 +459,6 @@ export function TiffinRegistrationForm() {
                 "Register Tiffin"
               )}
             </Button>
-
           </form>
         </Form>
       </CardContent>

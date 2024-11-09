@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Printer, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 interface Tiffin {
   _id: string;
@@ -33,7 +34,7 @@ export default function TodaysTiffins() {
     null
   );
   const [updatingPayment, setUpdatingPayment] = useState<string | null>(null);
-
+  const router = useRouter();
   const fetchTiffins = async (meal: "lunch" | "dinner") => {
     setLoading(true);
     try {
@@ -46,7 +47,7 @@ export default function TodaysTiffins() {
         alert("Failed to fetch tiffins");
       }
     } catch (error) {
-      alert("Error fetching tiffins "+ error);
+      alert("Error fetching tiffins " + error);
     }
     setLoading(false);
   };
@@ -62,7 +63,7 @@ export default function TodaysTiffins() {
         console.error("Failed to fetch all tiffins");
       }
     } catch (error) {
-      alert("Error fetching all tiffins:"+error);
+      alert("Error fetching all tiffins:" + error);
     }
     setLoading(false);
   };
@@ -89,7 +90,7 @@ export default function TodaysTiffins() {
         console.error("Failed to update payment status");
       }
     } catch (error) {
-      alert("Error updating payment status:"+ error);
+      alert("Error updating payment status:" + error);
     }
     setUpdatingPayment(null);
   };
@@ -125,6 +126,11 @@ export default function TodaysTiffins() {
     }
   };
 
+  function handleAddTiffin(event: React.MouseEvent): void {
+    router.push("/tiffin/add");
+    event.preventDefault();
+  }
+
   return (
     <div className="min-h-[calc(100vh-200px)] bg-gray-50 space-y-8 py-8">
       <Card className="max-w-5xl mx-auto">
@@ -136,6 +142,7 @@ export default function TodaysTiffins() {
                 onClick={() => fetchTiffins("lunch")}
                 disabled={loading}
                 variant={currentMeal === "lunch" ? "default" : "outline"}
+                className="bg-yellow-400 hover:bg-yellow-500 text-black"
               >
                 Fetch Lunch Tiffins
               </Button>
@@ -143,6 +150,7 @@ export default function TodaysTiffins() {
                 onClick={() => fetchTiffins("dinner")}
                 disabled={loading}
                 variant={currentMeal === "dinner" ? "default" : "outline"}
+                className="bg-gray-600 hover:bg-gray-500 text-white"
               >
                 Fetch Dinner Tiffins
               </Button>
@@ -223,11 +231,14 @@ export default function TodaysTiffins() {
 
       <Card className="max-w-5xl mx-auto">
         <CardHeader>
-          <CardTitle>Record Payments</CardTitle>
+          <CardTitle>Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <Button onClick={fetchAllTiffins} disabled={loading}>
-            List All Tiffins
+          <Button onClick={fetchAllTiffins} disabled={loading} className="bg-red-400">
+            All Tiffins
+          </Button>
+          <Button onClick={handleAddTiffin} className="ml-4 justify-between bg-blue-300 text-black hover:text-white">
+            Add Tiffin
           </Button>
           {allTiffins.length > 0 && (
             <Table className="mt-4">
@@ -239,8 +250,8 @@ export default function TodaysTiffins() {
                   <TableHead>Village</TableHead>
                   <TableHead>Lunch Count</TableHead>
                   <TableHead>Dinner Count</TableHead>
-                  <TableHead>Payment Status</TableHead>
                   <TableHead>Total Bill</TableHead>
+                  <TableHead>Payment Status</TableHead>
                   <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
@@ -254,7 +265,15 @@ export default function TodaysTiffins() {
                     <TableCell>{tiffin.lunchCount}</TableCell>
                     <TableCell>{tiffin.dinnerCount}</TableCell>
                     <TableCell>{tiffin.totalBill}</TableCell>
-                    <TableCell className={tiffin.paymentStatus === "pending" ? "text-red-500" : "text-green-500"}>{tiffin.paymentStatus}</TableCell>
+                    <TableCell
+                      className={
+                        tiffin.paymentStatus === "pending"
+                          ? "text-red-500"
+                          : "text-green-500"
+                      }
+                    >
+                      {tiffin.paymentStatus}
+                    </TableCell>
                     <TableCell>
                       <Button
                         onClick={() => updatePaymentStatus(tiffin._id)}
@@ -262,7 +281,11 @@ export default function TodaysTiffins() {
                           tiffin.paymentStatus === "received" ||
                           updatingPayment === tiffin._id
                         }
-                        className={tiffin.paymentStatus === "pending" ? "bg-green-500" : "bg-gray-500"}
+                        className={
+                          tiffin.paymentStatus === "pending"
+                            ? "bg-green-500"
+                            : "bg-gray-500"
+                        }
                         size="sm"
                       >
                         {updatingPayment === tiffin._id ? (

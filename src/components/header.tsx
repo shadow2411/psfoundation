@@ -11,6 +11,7 @@ const navItems = [
   { name: "About", href: "/about" },
   { name: "Donate", href: "/donate" },
   { name: "Contact", href: "/contact" },
+  { name: "Tiffin", href: "/tiffin" },
 ];
 
 export function Header() {

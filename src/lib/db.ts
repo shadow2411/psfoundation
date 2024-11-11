@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-
 const MONGODB_URI = process.env.MONGODB_URI || "";
-
 if (!MONGODB_URI) {
   throw new Error(
     "Please define the MONGODB_URI environment variable inside .env.local"
@@ -13,7 +11,6 @@ let cached = global.mongoose;
 
 if (!cached) {
   // @ts-expect-error global.mongoose
-
   cached = global.mongoose = { conn: null, promise: null };
 }
 
@@ -52,8 +49,14 @@ const TiffinOrderSchema = new mongoose.Schema({
   mobileNumber: { type: String, required: true },
   region: { type: String, required: true },
   village: { type: String, required: true },
-  fromDate: { type: Date, required: true },
-  tillDate: { type: Date, required: true },
+  fromDate: {
+    type: Date,
+    required: true,
+  },
+  tillDate: {
+    type: Date,
+    required: true,
+  },
   lunchCount: { type: Number, default: 0 },
   dinnerCount: { type: Number, default: 0 },
   totalBill: { type: Number, required: true },

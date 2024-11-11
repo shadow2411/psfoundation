@@ -4,7 +4,7 @@ import { useState, useEffect, useId, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { format, differenceInDays, startOfDay } from "date-fns";
+import moment from "moment-timezone";
 import { Calendar as CalendarIcon, Minus, Plus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import pricingData from "@/data/pricing.json";
 
+const IST_TIMEZONE = "Asia/Kolkata";
+
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   mobileNumber: z
@@ -40,8 +42,12 @@ const formSchema = z.object({
     .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
   region: z.string().min(1, { message: "Please select a region." }),
   village: z.string().min(1, { message: "Village is required." }),
-  fromDate: z.date({ required_error: "From date is required." }),
-  tillDate: z.date({ required_error: "Till date is required." }),
+  fromDate: z.date({
+    required_error: "Please select a start date.",
+  }),
+  tillDate: z.date({
+    required_error: "Please select an end date.",
+  }),
   lunchCount: z.number().min(0),
   dinnerCount: z.number().min(0),
   paymentStatus: z.enum(["pending", "received"]).default("pending"),
@@ -61,8 +67,8 @@ export function TiffinRegistrationForm() {
       village: "",
       lunchCount: 0,
       dinnerCount: 0,
-      fromDate: startOfDay(new Date()), // Initialize with start of today
-      tillDate: startOfDay(new Date()), // Initialize with start of today
+      fromDate: moment().tz(IST_TIMEZONE).startOf("day").toDate(),
+      tillDate: moment().tz(IST_TIMEZONE).endOf("day").toDate(),
       paymentStatus: "pending",
     },
   });
@@ -75,8 +81,9 @@ export function TiffinRegistrationForm() {
     const selectedRegion = pricingData.regions.find((r) => r.name === region);
     if (!selectedRegion) return;
 
-    // Add 1 to include both start and end dates
-    const days = differenceInDays(tillDate, fromDate) + 1;
+    const startDate = moment(fromDate).tz(IST_TIMEZONE);
+    const endDate = moment(tillDate).tz(IST_TIMEZONE);
+    const days = endDate.diff(startDate, "days") + 1;
     const months = Math.floor(days / 30);
     const remainingDays = days % 30;
 
@@ -124,7 +131,18 @@ export function TiffinRegistrationForm() {
       const response = await fetch("/api/add-tiffin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, totalBill }),
+        body: JSON.stringify({
+          ...values,
+          fromDate: moment(values.fromDate)
+            .tz(IST_TIMEZONE)
+            .startOf("day")
+            .toISOString(),
+          tillDate: moment(values.tillDate)
+            .tz(IST_TIMEZONE)
+            .endOf("day")
+            .toISOString(),
+          totalBill,
+        }),
       });
 
       if (response.ok) {
@@ -145,9 +163,12 @@ export function TiffinRegistrationForm() {
   const setTillDateToOneMonth = () => {
     const fromDate = form.getValues("fromDate");
     if (fromDate) {
-      const oneMonthLater = new Date(fromDate);
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-      oneMonthLater.setDate(oneMonthLater.getDate() - 1); // Subtract one day to stay within the month
+      const oneMonthLater = moment(fromDate)
+        .tz(IST_TIMEZONE)
+        .add(1, "month")
+        .subtract(1, "day")
+        .endOf("day")
+        .toDate();
       form.setValue("tillDate", oneMonthLater);
     }
   };
@@ -270,7 +291,7 @@ export function TiffinRegistrationForm() {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              moment(field.value).format("DD-MM-YYYY")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -284,15 +305,25 @@ export function TiffinRegistrationForm() {
                           selected={field.value}
                           onSelect={(date) => {
                             if (date) {
-                              const startOfSelectedDay = startOfDay(date);
-                              field.onChange(startOfSelectedDay);
-                              form.setValue("tillDate", startOfSelectedDay);
+                              const istDate = moment(date)
+                                .tz(IST_TIMEZONE)
+                                .startOf("day");
+                              field.onChange(istDate.toDate());
+                              form.setValue(
+                                "tillDate",
+                                istDate.clone().endOf("day").toDate()
+                              );
                             }
                           }}
-                          disabled={(date) =>
-                            date < startOfDay(new Date()) || // Allow today's date
-                            date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => {
+                            const today = moment()
+                              .tz(IST_TIMEZONE)
+                              .startOf("day");
+                            return (
+                              date < today.toDate() ||
+                              date < new Date("1900-01-01")
+                            );
+                          }}
                           initialFocus
                         />
                       </PopoverContent>
@@ -321,7 +352,7 @@ export function TiffinRegistrationForm() {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              moment(field.value).format("DD-MM-YYYY")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -335,18 +366,25 @@ export function TiffinRegistrationForm() {
                           selected={field.value}
                           onSelect={(date) => {
                             if (date) {
-                              field.onChange(startOfDay(date));
+                              const istDate = moment(date)
+                                .tz(IST_TIMEZONE)
+                                .endOf("day");
+                              field.onChange(istDate.toDate());
                             }
                           }}
                           disabled={(date) => {
                             const fromDate = form.getValues("fromDate");
-                            const oneMonthLater = new Date(fromDate);
-                            oneMonthLater.setMonth(
-                              oneMonthLater.getMonth() + 1
-                            );
+                            const fromDateMoment =
+                              moment(fromDate).tz(IST_TIMEZONE);
+                            const oneMonthLater = fromDateMoment
+                              .clone()
+                              .add(1, "month")
+                              .endOf("day")
+                              .toDate();
+
                             return (
-                              date < fromDate || // Can't be before from date
-                              date > oneMonthLater // Can't be more than a month later
+                              date < fromDateMoment.toDate() ||
+                              date > oneMonthLater
                             );
                           }}
                           initialFocus
@@ -361,7 +399,7 @@ export function TiffinRegistrationForm() {
             <Button
               type="button"
               onClick={setTillDateToOneMonth}
-              className="mt-2"
+              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
             >
               Set to One Month
             </Button>
@@ -458,7 +496,7 @@ export function TiffinRegistrationForm() {
                 Total Bill: ₹{totalBill}
               </p>
             </div>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button type="submit" className="w-full bg-red-500 hover:bg-red-600" disabled={isSubmitting} >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

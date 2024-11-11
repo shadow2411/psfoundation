@@ -234,10 +234,17 @@ export default function TodaysTiffins() {
           <CardTitle>Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <Button onClick={fetchAllTiffins} disabled={loading} className="bg-red-400">
+          <Button
+            onClick={fetchAllTiffins}
+            disabled={loading}
+            className="bg-red-400"
+          >
             All Tiffins
           </Button>
-          <Button onClick={handleAddTiffin} className="ml-4 justify-between bg-blue-300 text-black hover:text-white">
+          <Button
+            onClick={handleAddTiffin}
+            className="ml-4 justify-between bg-blue-300 text-black hover:text-white"
+          >
             Add Tiffin
           </Button>
           {allTiffins.length > 0 && (
@@ -246,7 +253,6 @@ export default function TodaysTiffins() {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Mobile</TableHead>
-                  <TableHead>Region</TableHead>
                   <TableHead>Village</TableHead>
                   <TableHead>Lunch Count</TableHead>
                   <TableHead>Dinner Count</TableHead>
@@ -260,7 +266,6 @@ export default function TodaysTiffins() {
                   <TableRow key={tiffin._id}>
                     <TableCell>{tiffin.name}</TableCell>
                     <TableCell>{tiffin.mobileNumber}</TableCell>
-                    <TableCell>{tiffin.region}</TableCell>
                     <TableCell>{tiffin.village}</TableCell>
                     <TableCell>{tiffin.lunchCount}</TableCell>
                     <TableCell>{tiffin.dinnerCount}</TableCell>

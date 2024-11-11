@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import { TiffinOrder } from "@/lib/db";
 
+
 export async function GET(req: Request) {
   try {
     await dbConnect();
@@ -15,13 +16,14 @@ export async function GET(req: Request) {
       );
     }
 
-    // Create a date at the start of the current day (midnight)
-    const today = new Date();
+    const date= new Date();
 
     const query = {
-      fromDate: { $lte: today },
-      tillDate: { $gte: today },
-      [`${meal}Count`]: { $gt: 0 }, // Use proper field name with 'Count' suffix
+      $and: [
+        { fromDate: { $lte: date } },  
+        { tillDate: { $gte: date } },  
+        { [`${meal}Count`]: { $gt: 0 } }
+      ]
     };
 
     const tiffins = await TiffinOrder.find(query).sort({ village: -1 });
